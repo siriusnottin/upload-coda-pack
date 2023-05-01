@@ -17,7 +17,8 @@ async function run() {
       listeners: {
         stdout: (data) => {
           const output = data.toString();
-          const packVersion = output.match(/version is (\d+)/)[1];
+          const match = output.match(/version is (\d+)/m);
+          const packVersion = (match) ? match[1] : null;
           core.setOutput('packVersion', packVersion);
         },
         stderr: (data) => {
