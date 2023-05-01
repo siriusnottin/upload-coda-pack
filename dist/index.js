@@ -4114,7 +4114,7 @@ async function run() {
       },
     };
 
-    await exec.exec('npx', ['coda', 'upload', 'packPath', '--token', codaApiToken], options);
+    await exec.exec('npx', ['coda', 'upload', 'packPath', '--apiToken', codaApiToken], options);
 
     if (codaError) {
       throw new Error(`Coda upload failed with error: ${codaError}`);
