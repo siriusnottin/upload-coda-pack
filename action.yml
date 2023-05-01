@@ -1,0 +1,20 @@
+name: 'Upload Coda pack'
+description: 'Uploads a Coda pack to Coda'
+author: 'Sirius Nottin'
+
+inputs:
+  packPath:
+    description: 'The path to the Coda pack to upload'
+    required: true
+    default: 'pack.ts'
+  codaApiToken:
+    description: 'The Coda API token to use'
+    required: true
+
+outputs:
+  packVersion:
+    description: 'The version of the uploaded Coda pack'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
