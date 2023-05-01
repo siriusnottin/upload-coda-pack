@@ -12,29 +12,36 @@ async function run() {
 
     core.info(`Uploading ${packPath} to Coda`);
 
+    let codaOutput = '';
     let codaError = '';
-    await exec.exec(`npx coda upload ${packPath} -t "${codaApiToken}"`, [], {
+    const options = {
       listeners: {
         stdout: (data) => {
-          const output = data.toString();
-          const match = output.match(/version is (\d+)/m);
-          const packVersion = (match) ? match[1] : null;
-          core.setOutput('packVersion', packVersion);
+          codaOutput += data.toString();
         },
         stderr: (data) => {
           codaError += data.toString();
         },
       },
-    });
+    };
+
+    await exec.exec('npx', ['coda', 'upload', 'packPath', '--token', codaApiToken], options);
 
     if (codaError) {
-      throw new Error(codaError);
+      throw new Error(`Coda upload failed with error: ${codaError}`);
     }
 
-    core.info('Pack uploaded successfully');
+    const match = codaOutput.match(/version is (\d+)/m);
+    const packVersion = (match && match[1]) || 'unknown';
+    if (packVersion) {
+      core.setOutput('packVersion', packVersion);
+      core.info(`Pack v${packVersion} uploaded successfully`);
+    } else {
+      core.warning('Unable to determine pack version from Coda output');
+    }
 
   } catch (error) {
-    core.setFailed(`Action failed with error ${error}`);
+    core.setFailed(`Action failed with error ${error} `);
   }
 }
 
