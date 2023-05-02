@@ -36,6 +36,7 @@ async function run() {
     if (packVersion) {
       core.setOutput('packVersion', packVersion);
       core.info(`Pack v${packVersion} uploaded successfully`);
+      core.exportVariable('packVersion', packVersion);
     } else {
       core.warning('Unable to determine pack version from Coda output');
     }
