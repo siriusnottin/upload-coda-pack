@@ -1,5 +1,8 @@
 name: 'Upload Coda pack'
 description: 'Uploads a Coda pack to Coda'
+branding:
+  color: 'orange'
+  icon: 'upload-cloud'
 author: 'Sirius Nottin'
 
 inputs:
